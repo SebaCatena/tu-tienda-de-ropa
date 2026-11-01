@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block titulo %}Pedido confirmado - Tu Tienda de Ropa{% endblock %}
+{% block contenido %}
+<section class="page-content">
+  <h2 class="section-title">¡Gracias por tu compra, {{ pedido.nombre }}!</h2>
+  <p>Tu pedido <strong>#{{ pedido.id }}</strong> quedó registrado el {{ pedido.fecha.replace('T', ' ') }}. Estado: <strong>{{ pedido.estado }}</strong>.</p>
+  <br>
+  <table class="cart-table">
+    <thead><tr><th>Producto</th><th>Cantidad</th><th>Precio</th><th>Subtotal</th></tr></thead>
+    <tbody>
+      {% for it in items %}
+      <tr><td>{{ it.nombre }}</td><td>{{ it.cantidad }}</td><td>{{ it.precio_unitario|peso }}</td><td>{{ (it.precio_unitario * it.cantidad)|peso }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <p class="cart-total"><strong>Total: {{ pedido.total|peso }}</strong></p>
+  <div class="acciones"><a class="btn" href="{{ url_for('productos') }}">Seguir comprando</a></div>
+</section>
+{% endblock %}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block titulo %}Tu Tienda de Ropa{% endblock %}</title>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='img/tipografia.ico') }}" type="image/x-icon">
+  <script src="https://kit.fontawesome.com/412dca169c.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style-product.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/carrito.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body class="product">
+  <header class="header-navs">
+    <h1><span>T</span>u <span>T</span>ienda de Ropa</h1>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="{{ url_for('inicio') }}">Inicio</a></li>
+        <li><a href="{{ url_for('productos') }}">Productos</a></li>
+        <li><a href="{{ url_for('ver_carrito') }}">Carrito{% if cantidad_carrito %}<span class="badge-carrito">{{ cantidad_carrito }}</span>{% endif %}</a></li>
+        <li><a href="{{ url_for('pagina_estatica', archivo='Contacto.html') }}">Contacto</a></li>
+        <li><a href="{{ url_for('pagina_estatica', archivo='locales.html') }}">Locales</a></li>
+        <li><a href="{{ url_for('pagina_estatica', archivo='cambios.html') }}">Cambios</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  {% with mensajes = get_flashed_messages(with_categories=true) %}
+    {% if mensajes %}
+      <div class="flash-container">
+        {% for categoria, texto in mensajes %}
+          <div class="flash {{ categoria }}">{{ texto }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% block contenido %}{% endblock %}
+
+  <footer class="footer-page">
+    <div class="group-one">
+      <div class="box">
+        <figure><div class="logo"><a href="{{ url_for('inicio') }}"><span>T</span>u <span>T</span>ienda de Ropa</a></div></figure>
+      </div>
+      <div class="box">
+        <h2>SOBRE NOSOTROS</h2>
+        <p>¡Bienvenidos a Tu Tienda de Ropa! Somos una tienda virtual de ropa que se especializa en ofrecer productos de alta calidad y tendencia a precios accesibles.</p>
+        <p>Te invitamos a explorar nuestra tienda virtual y descubrir todos los productos que tenemos para ofrecerte. ¡Gracias por elegirnos!</p>
+      </div>
+      <div class="box">
+        <h2>SIGUENOS</h2>
+        <div class="redes">
+          <a href="#" class="fa-brands fa-square-facebook"></a>
+          <a href="#" class="fa-brands fa-square-instagram"></a>
+          <a href="#" class="fa-brands fa-square-x-twitter"></a>
+          <a href="#" class="fa-brands fa-square-youtube"></a>
+        </div>
+      </div>
+    </div>
+    <div class="group-two"><small>&copy;2024 <b>Tu tienda de ropa</b> - Todos los Derechos Reservados</small></div>
+  </footer>
+</body>
+</html>

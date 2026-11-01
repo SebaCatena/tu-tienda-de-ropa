@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block titulo %}Finalizar compra - Tu Tienda de Ropa{% endblock %}
+{% block contenido %}
+<section class="page-content">
+  <h2 class="section-title">Finalizar compra</h2>
+  <p>{{ items|length }} producto(s) · Total a pagar: <strong>{{ total|peso }}</strong></p>
+  <br>
+  <form method="post" class="form-grid">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <label>Nombre y apellido *<input type="text" name="nombre" value="{{ datos.nombre or '' }}" required minlength="3"></label>
+    <label>Email *<input type="email" name="email" value="{{ datos.email or '' }}" required></label>
+    <label>Teléfono<input type="tel" name="telefono" value="{{ datos.telefono or '' }}"></label>
+    <label>Dirección de entrega *<input type="text" name="direccion" value="{{ datos.direccion or '' }}" required minlength="5"></label>
+    <div class="acciones">
+      <a class="btn btn-secundario" href="{{ url_for('ver_carrito') }}">Volver al carrito</a>
+      <button class="btn" type="submit">Confirmar pedido</button>
+    </div>
+  </form>
+</section>
+{% endblock %}

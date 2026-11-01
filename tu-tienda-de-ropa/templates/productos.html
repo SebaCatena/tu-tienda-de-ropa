@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block titulo %}Productos - Tu Tienda de Ropa{% endblock %}
+{% block contenido %}
+<section class="shop container">
+  <h2 class="section-title">Nuestros productos</h2>
+  <div class="shop-content">
+    {% for p in productos %}
+    <div class="product-box">
+      <img src="{{ url_for('static', filename='img/' ~ p.imagen) }}" alt="{{ p.nombre }}" class="product-img">
+      <h2 class="product-title">{{ p.nombre }}</h2>
+      <span class="product-price">{{ p.precio|peso }}</span>
+      <span class="stock">{% if p.stock > 0 %}Stock: {{ p.stock }}{% else %}Sin stock{% endif %}</span>
+      <form method="post" action="{{ url_for('agregar_al_carrito', producto_id=p.id) }}" class="add-cart-form">
+        <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+        <button class="add-cart-btn" type="submit" title="Agregar al carrito" {% if p.stock <= 0 %}disabled{% endif %}>
+          <i class="fa-solid fa-bag-shopping"></i>
+        </button>
+      </form>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block titulo %}Carrito - Tu Tienda de Ropa{% endblock %}
+{% block contenido %}
+<section class="page-content">
+  <h2 class="section-title">Tu carrito</h2>
+  {% if items %}
+  <table class="cart-table">
+    <thead><tr><th></th><th>Producto</th><th>Precio</th><th>Cantidad</th><th>Subtotal</th><th></th></tr></thead>
+    <tbody>
+      {% for it in items %}
+      <tr>
+        <td><img src="{{ url_for('static', filename='img/' ~ it.producto.imagen) }}" alt=""></td>
+        <td>{{ it.producto.nombre }}</td>
+        <td>{{ it.producto.precio|peso }}</td>
+        <td>
+          <form method="post" action="{{ url_for('actualizar_carrito', producto_id=it.producto.id) }}" class="inline-form">
+            <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+            <input type="number" name="cantidad" value="{{ it.cantidad }}" min="0" max="{{ it.producto.stock }}">
+            <button class="btn btn-secundario btn-chico" type="submit">Actualizar</button>
+          </form>
+        </td>
+        <td>{{ it.subtotal|peso }}</td>
+        <td>
+          <form method="post" action="{{ url_for('quitar_del_carrito', producto_id=it.producto.id) }}" class="inline-form">
+            <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+            <button class="btn btn-peligro" type="submit" title="Quitar"><i class="fa-solid fa-trash"></i></button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <p class="cart-total"><strong>Total: {{ total|peso }}</strong></p>
+  <div class="acciones">
+    <a class="btn btn-secundario" href="{{ url_for('productos') }}">Seguir comprando</a>
+    <a class="btn" href="{{ url_for('checkout') }}">Finalizar compra</a>
+  </div>
+  {% else %}
+  <p>Todavía no agregaste productos.</p>
+  <div class="acciones"><a class="btn" href="{{ url_for('productos') }}">Ver productos</a></div>
+  {% endif %}
+</section>
+{% endblock %}
